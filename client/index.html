@@ -21,24 +21,55 @@
             const res = await fetch('/upload', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body:JSON.stringify({filename: video.name})
-                //body:JSON.stringify({filename: video.name, contentType: video.type})
+                //body:JSON.stringify({filename: video.name})
+                body:JSON.stringify({filename: video.name, contentType: video.type})
             })
 
             const {url: presignedURL} = await res.json()
 
-            // fetching the object using an HTTP request to the URL.
-            const uploads3 = await fetch(presignedURL, { 
-                method: "PUT", 
-                headers: {'Content-Type':video.type},
-                body: video
-            });
-            if (uploads3.ok) {
-                alert("✅ Video uploaded successfully!");
-            } else {
-                alert("❌ Upload failed.");
-            }
-            //getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
+            
+            
+            
+            
+            
+            
+            
+            
+            //bugufuxingwithaxios
+            try {
+      await axios.put(presignedURL, video, {
+        headers: {
+          'Content-Type': video.type
+        }
+      });
+      document.getElementById('status').textContent = "✅ Upload Complete";
+    } catch (err) {
+      console.error("Upload error:", err);
+      document.getElementById('status').textContent = "❌ Upload Failed";
+    }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            // // fetching the object using an HTTP request to the URL.
+            // const uploads3 = await fetch(presignedURL, { 
+            //     method: "PUT", 
+            //     headers: {'Content-Type':video.type},
+            //     body: video
+            // });
+            // if (uploads3.ok) {
+            //     alert("✅ Video uploaded successfully!");
+            // } else {
+            //     alert("❌ Upload failed.");
+            // }
+            // //getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
 
         }
     </script>
