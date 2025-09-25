@@ -29,7 +29,7 @@
             // fetching the object using an HTTP request to the URL.
             const uploads3 = await fetch(presignedURL, { 
                 method: "PUT", 
-                headers: {'Content-Type':'video.type'},
+                headers: {'Content-Type':video.type},
                 body: video
             });
             if (uploads3.ok) {
