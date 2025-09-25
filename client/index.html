@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
 
 </head>
 <body>
@@ -29,36 +28,13 @@
 
             const {url: presignedURL} = await res.json()
     
-            
-            
-            //bugufixingwithaxios
-            // try {
-            //     await axios.put(presignedURL, video, {
-            //         headers: {
-            //         'Content-Type': video.type
-            //         }
-            //     });
-            //     document.getElementById('status').textContent = "✅ Upload Complete";
-            //     } catch (err) {
-            //     console.error("Upload error:", err);
-            //     document.getElementById('status').textContent = "❌ Upload Failed";
-            //     }
-                        
-                       
-            
-            
-            // fetching the object using an HTTP request to the URL.
+           // fetching the object using an HTTP request to the URL.
             const uploads3 = await fetch(presignedURL, { 
                 method: "PUT", 
                 headers: {'Content-Type':video.type},
                 body: video
             });
-            if (uploads3.ok) {
-                alert("✅ Video uploaded successfully!");
-            } else {
-                alert("❌ Upload failed.");
-            }
-            //document.getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
+            document.getElementById('status').textContent = uploads3.ok ? "Upload Complete":"Upload Fail" 
 
         }
     </script>
