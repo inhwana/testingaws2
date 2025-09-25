@@ -24,11 +24,20 @@
                 body:JSON.stringify({filename: video.name})
             })
 
-            const {presignedURL} = await res.json()
+            const {url: presignedURL} = await res.json()
 
             // fetching the object using an HTTP request to the URL.
-            const uploads3 = await fetch(presignedURL, { method: "PUT", body: video});
-            getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
+            const uploads3 = await fetch(presignedURL, { 
+                method: "PUT", 
+                headers: {'Content-Type':'video.type'},
+                body: video
+            });
+            if (uploads3.ok) {
+                alert("✅ Video uploaded successfully!");
+            } else {
+                alert("❌ Upload failed.");
+            }
+            //getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
 
         }
     </script>
