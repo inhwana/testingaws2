@@ -16,11 +16,12 @@ s3Client = new S3.S3Client({ region: 'ap-southeast-2'})
 
 app.post('/upload', async (req,res)=>{
     // Return Upload Presigned URL
-    const {filename} = req.body
+    const {filename, contenttype} = req.body
     try {
         const command = new S3.PutObjectCommand({
                 Bucket: bucketName,
                 Key: filename,
+                ContentType: contenttype
             });
         const presignedURL = await S3Presigner.getSignedUrl(s3Client, command, {expiresIn: 3600} );
         console.log(presignedURL);

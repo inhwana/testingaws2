@@ -21,7 +21,7 @@
             const res = await fetch('/upload', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body:JSON.stringify({filename: video.name})
+                body:JSON.stringify({filename: video.name, contenttype: video.type})
             })
 
             const {url: presignedURL} = await res.json()
