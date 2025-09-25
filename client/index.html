@@ -53,12 +53,12 @@
                 headers: {'Content-Type':video.type},
                 body: video
             });
-            // if (uploads3.ok) {
-            //     alert("✅ Video uploaded successfully!");
-            // } else {
-            //     alert("❌ Upload failed.");
-            // }
-            document.getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
+            if (uploads3.ok) {
+                alert("✅ Video uploaded successfully!");
+            } else {
+                alert("❌ Upload failed.");
+            }
+            //document.getElementById('status').textcontent = uploads3.ok ? "Upload Complete":"Upload Fail" 
 
         }
     </script>
