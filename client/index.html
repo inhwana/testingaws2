@@ -36,6 +36,13 @@
             });
             document.getElementById('status').textContent = uploads3.ok ? "Upload Complete":"Upload Fail" 
 
+            if (uploads3.ok){
+                const transcode =  await fetch ('/transcode', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body:JSON.stringify({filename: video.name, contentType: video.type})
+                })
+            }
         }
     </script>
     <!-- <script src="script.js" defer></script> -->

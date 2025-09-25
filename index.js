@@ -33,6 +33,27 @@ app.post('/upload', async (req,res)=>{
     }
 })
 
+
+// Transcode the video from S3
+app.post('/transcode', async (req,res) =>{
+    const {filename} = req.body
+    let response
+    // Create and send a command to read an object
+    try {
+        response = await s3Client.send(
+            new S3.GetObjectCommand({
+                Bucket: bucketName,
+                Key: filename,
+            })
+        );
+    } catch (err) {
+        console.log(err);
+    }
+    
+
+
+})
+
 const PORT = 3000
 app.listen(PORT, ()=>{
     console.log("Server listening on PORT:", PORT)
