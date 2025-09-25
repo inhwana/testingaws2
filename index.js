@@ -1,7 +1,7 @@
 const express = require('express')
 //const ffmpeg = require('fluent-ffmpeg')
 const S3 = require("@aws-sdk/client-s3");
-//const S3Presigner = require("@aws-sdk/s3-request-presigner");
+const S3Presigner = require("@aws-sdk/s3-request-presigner");
 //const { Upload } = require("@aws-sdk/lib-storage")
 //const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
@@ -14,17 +14,17 @@ app.use(express.json()) // For parsing json
 const bucketName = 'n1234567-test'
 s3Client = new S3.S3Client({ region: 'ap-southeast-2'})
 
-app.post('/upload', async (res,req)=>{
+app.post('/upload', async (req,res)=>{
     // Return Upload Presigned URL
     const {filename} = req.body
     try {
-        const command = new S3.GetObjectCommand({
+        const command = new S3.PutObjectCommand({
                 Bucket: bucketName,
                 Key: filename,
             });
         const presignedURL = await S3Presigner.getSignedUrl(s3Client, command, {expiresIn: 3600} );
         console.log(presignedURL);
-        res.json(presignedURL)
+        res.json({url :presignedURL})
     } catch (err) {
         console.log(err);
     }
