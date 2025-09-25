@@ -11,7 +11,7 @@ app.use(express.static('client'));
 app.use(express.json()) // For parsing json
 
 //AWS
-const bucketName = 'n1234567-test'
+const bucketName = 'n10851879-test'
 s3Client = new S3.S3Client({ region: 'ap-southeast-2'})
 
 app.post('/upload', async (req,res)=>{
