@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 <body>
     <label for="video">Upload Video:</label><br><br>
@@ -26,36 +28,23 @@
             })
 
             const {url: presignedURL} = await res.json()
-
+    
             
             
-            
-            
-            
-            
-            
-            
-            //bugufuxingwithaxios
+            //bugufixingwithaxios
             try {
-      await axios.put(presignedURL, video, {
-        headers: {
-          'Content-Type': video.type
-        }
-      });
-      document.getElementById('status').textContent = "✅ Upload Complete";
-    } catch (err) {
-      console.error("Upload error:", err);
-      document.getElementById('status').textContent = "❌ Upload Failed";
-    }
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                await axios.put(presignedURL, video, {
+                    headers: {
+                    'Content-Type': video.type
+                    }
+                });
+                document.getElementById('status').textContent = "✅ Upload Complete";
+                } catch (err) {
+                console.error("Upload error:", err);
+                document.getElementById('status').textContent = "❌ Upload Failed";
+                }
+                        
+                       
             
             
             // // fetching the object using an HTTP request to the URL.
