@@ -55,6 +55,7 @@ app.post('/transcode', async (req,res) =>{
     
     ffmpeg(video)
     .videoCodec('libx264')
+    .output('pipe:1')
     .format('mp4')
     .on('error', (err) => {
     console.error('Error:', err.message);
