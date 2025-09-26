@@ -50,7 +50,7 @@ app.post('/transcode', async (req,res) =>{
             })
         );
      
-    const video = response.body
+    const video = response.Body
     const videostream = new PassThrough()
     
     // ffmpeg(video)
@@ -70,7 +70,6 @@ app.post('/transcode', async (req,res) =>{
     // })
     // .pipe(videostream, {end:true})
     ffmpeg(video)
-  .inputFormat('avi') // optional: if input is AVI
   .videoCodec('libvpx')
   .audioCodec('libvorbis')
   .format('webm')
