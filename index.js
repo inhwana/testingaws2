@@ -61,7 +61,7 @@ app.post('/transcode', async (req,res) =>{
     .outputFormat('webm')
     .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
     .audioCodec('libvorbis') // libopus  
-    .output('pipe:1')
+    .output('-')
     
     .on('error', (err) => {
     console.error('Error:', err.message);
