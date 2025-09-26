@@ -54,6 +54,7 @@ app.post('/transcode', async (req,res) =>{
     const videostream = new PassThrough()
     
     ffmpeg(video)
+    .outputOptions('-movflags frag_keyframe+empty_moov')
     .videoCodec('libx264')
     .output('pipe:1')
     .format('mp4')
