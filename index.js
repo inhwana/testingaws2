@@ -53,22 +53,35 @@ app.post('/transcode', async (req,res) =>{
     const video = response.body
     const videostream = new PassThrough()
     
-    ffmpeg(video)
-    //.outputOptions('-movflags frag_keyframe+empty_moov')
-    //.videoCodec('libx264')
-    //.format('mp4')
-    // Testing with WebM
-    .outputFormat('webm')
-    .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
-    .audioCodec('libvorbis') // libopus  
-    .output('-')
+    // ffmpeg(video)
+    // //.outputOptions('-movflags frag_keyframe+empty_moov')
+    // //.videoCodec('libx264')
+    // //.format('mp4')
+    // // Testing with WebM
+    // .outputFormat('webm')
+    // .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
+    // .audioCodec('libvorbis') // libopus  
+    // .output('-')
     
-    .on('error', (err) => {
-    console.error('Error:', err.message);
-    res.status(500).send("Transcoding Failed :(")
-    return;
-    })
-    .pipe(videostream, {end:true})
+    // .on('error', (err) => {
+    // console.error('Error:', err.message);
+    // res.status(500).send("Transcoding Failed :(")
+    // return;
+    // })
+    // .pipe(videostream, {end:true})
+    ffmpeg(video)
+  .inputFormat('avi') // optional: if input is AVI
+  .videoCodec('libvpx')
+  .audioCodec('libvorbis')
+  .format('webm')
+  .on('start', cmd => console.log('FFmpeg started:', cmd))
+  .on('error', err => {
+    console.error('FFmpeg error:', err.message);
+    if (!res.headersSent) res.status(500).send('Transcoding Failed');
+  })
+  .on('end', () => console.log('FFmpeg finished'))
+  .pipe(videostream, { end: true });
+
 
     const uploads3 = new Upload({
         client: s3Client,
