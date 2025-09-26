@@ -43,11 +43,11 @@
                     headers: {'Content-Type': 'application/json'},
                     body:JSON.stringify({filename: video.name, contentType: video.type})
                 })
+                if(!transcode.ok) throw new Error("Transcoding Failed")
+                const {url: downloadpresignedURL} = await transcode.json()
+                document.getElementById("downloadlink").href = downloadpresignedURL
+                document.getElementById("downloadlink").textContent = "Download Link"
             }
-
-            const {url: downloadpresignedURL} = await transcode.json()
-            document.getElementById("downloadlink").href = downloadpresignedURL
-            document.getElementById("downloadlink").textContent = "Download Link"
         }
     </script>
     <!-- <script src="script.js" defer></script> -->
