@@ -72,7 +72,7 @@ app.post('/transcode', async (req,res) =>{
     // .outputFormat('webm')
     // .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
     // .audioCodec('libvorbis') // libopus  
-    .output('-')
+    .output('pipe:1')
     .on('start', cmd => console.log('FFmpeg started:', cmd))
     .on('error', (err) => {
     console.error('Error:', err.message);
