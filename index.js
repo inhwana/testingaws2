@@ -54,10 +54,11 @@ app.post('/transcode', async (req,res) =>{
     const videostream = new PassThrough()
     
     ffmpeg(video)
-    .outputOptions('-movflags frag_keyframe+empty_moov')
+    //.outputOptions('-movflags frag_keyframe+empty_moov')
     //.videoCodec('libx264')
     //.format('mp4')
     // Testing with WebM
+    .outputFormat('webm')
     .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
     .audioCodec('libvorbis') // libopus  
     .output('pipe:1')
