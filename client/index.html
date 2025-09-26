@@ -36,7 +36,46 @@
                 body: video
             });
             document.getElementById('status').textContent = uploads3.ok ? "Upload Complete":"Upload Fail" 
+            
+            if(uploads3.ok){
+                const transcode = await fetch('/transcode', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    //body:JSON.stringify({filename: video.name})
+                    body:JSON.stringify({filename: video.name, contentType: video.type})
+                })               
+            }
 
+            const {url: downloadpresignedURL} = await transcode.json()
+
+            document.getElementById(downloadlink).href = downloadpresignedURL
+            document.getElementById(downloadlink).textContent = "Download Transcoded Video"
+            docuemnt.getElementById(downloadlink).style.display = "inline"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
             if (uploads3.ok){
                 const transcode =  await fetch ('/transcode', {
                     method: 'POST',
@@ -58,7 +97,7 @@ console.log('Presigned URL:', data.url);
 
                 // document.getElementById("downloadlink").href = downloadpresignedURL
                 // document.getElementById("downloadlink").textContent = "Download Link"
-            }
+            }*/
         }
     </script>
     <!-- <script src="script.js" defer></script> -->
