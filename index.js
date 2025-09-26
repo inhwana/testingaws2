@@ -58,8 +58,8 @@ app.post('/transcode', async (req,res) =>{
     //.videoCodec('libx264')
     //.format('mp4')
     // Testing with WebM
-    .videocodec('libvpx') // libvpx-vp9 For higher CPU Usage
-    .audiocodec('libvorbis') // libopus  
+    .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
+    .audioCodec('libvorbis') // libopus  
     .output('pipe:1')
     
     .on('error', (err) => {
