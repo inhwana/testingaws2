@@ -59,38 +59,39 @@ app.post('/transcode', async (req,res) =>{
             Bucket: bucketName,
             Key:transcodedkey,
             Body: videostream,
-            //ContentType: 'video/mp4'
-            ContentType: 'video/avi'
+            ContentType: 'video/mp4'
+            //ContentType: 'video/avi'
         }
     })
     
-    // ffmpeg(video)
-    // //.outputOptions('-movflags frag_keyframe+empty_moov')
-    // //.videoCodec('libx264')
-    // //.format('mp4')
-    // // Testing with WebM
+    ffmpeg(video)
+    //.outputOptions('-movflags frag_keyframe+empty_moov')
+    .videoCodec('libx264')
+    .format('mp4')
+    // Testing with WebM
     // .outputFormat('webm')
     // .videoCodec('libvpx') // libvpx-vp9 For higher CPU Usage
     // .audioCodec('libvorbis') // libopus  
     // .output('-')
-    
-    // .on('error', (err) => {
-    // console.error('Error:', err.message);
-    // res.status(500).send("Transcoding Failed :(")
-    // return;
-    // })
-    // .pipe(videostream, {end:true})
-    ffmpeg(video)
-    .videoCodec('libvpx')
-    .audioCodec('libvorbis')
-    .format('webm')
     .on('start', cmd => console.log('FFmpeg started:', cmd))
-    .on('error', err => {
-        console.error('FFmpeg error:', err.message);
-        if (!res.headersSent) res.status(500).send('Transcoding Failed');
+    .on('error', (err) => {
+    console.error('Error:', err.message);
+    res.status(500).send("Transcoding Failed :(")
+    return;
     })
     .on('end', () => console.log('FFmpeg finished'))
-    .pipe(videostream, { end: true });
+    .pipe(videostream, {end:true})
+    // ffmpeg(video)
+    // .videoCodec('libvpx')
+    // .audioCodec('libvorbis')
+    // .format('webm')
+    // .on('start', cmd => console.log('FFmpeg started:', cmd))
+    // .on('error', err => {
+    //     console.error('FFmpeg error:', err.message);
+    //     if (!res.headersSent) res.status(500).send('Transcoding Failed');
+    // })
+    // .on('end', () => console.log('FFmpeg finished'))
+    // .pipe(videostream, { end: true });
 
 
     const result = await uploads3.done()
