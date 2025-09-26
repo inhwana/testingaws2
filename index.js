@@ -63,6 +63,7 @@ app.post('/transcode', async (req,res) =>{
 
     // Transcoding Using FFMPEG
     ffmpeg(video)
+    .outputOptions('-movflags frag_keyframe+empty_moov')
     .videoCodec('libx264')
     .format('mp4')
     .on('error', (err) => {
