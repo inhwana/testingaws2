@@ -65,7 +65,7 @@ app.post('/transcode', async (req,res) =>{
     })
     
     ffmpeg(video)
-    //.outputOptions('-movflags frag_keyframe+empty_moov')
+    .outputOptions('-movflags frag_keyframe+empty_moov')
     .videoCodec('libx264')
     .format('mp4')
     // Testing with WebM
