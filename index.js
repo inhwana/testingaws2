@@ -63,7 +63,7 @@ app.post('/transcode', async (req,res) =>{
 
     // Transcoding Using FFMPEG
     ffmpeg(video)
-    .outputOptions('-movflags frag_keyframe+empty_moov')
+    .outputOptions('-movflags frag_keyframe+empty_moov') // Used because MP4 does not work well with streams
     .videoCodec('libx264')
     .format('mp4')
     .on('error', (err) => {
@@ -80,7 +80,7 @@ app.post('/transcode', async (req,res) =>{
     const command = new S3.GetObjectCommand({
             Bucket: bucketName,
             Key: transcodedkey,
-            ResponseContentDisposition: 'attachment; filename="transcodedvideo.mp4"',
+            ResponseContentDisposition: 'attachment; filename="transcodedvideo.mp4"', // Used for directly downloading from presigned URL
         });
     const downloadpresignedURL = await S3Presigner.getSignedUrl(s3Client, command, {expiresIn: 3600} );
     res.json({url :downloadpresignedURL})
