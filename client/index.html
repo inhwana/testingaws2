@@ -50,7 +50,9 @@ const data = await transcode.json();
 console.log('Presigned URL:', data.url);
 
             const link = document.getElementById("downloadlink");
-            link.href = downloadpresignedURL;
+//            link.href = downloadpresignedURL;
+            link.href = data.url;
+
             link.textContent = "Download Transcoded Video";
             link.style.display = "inline";
 
