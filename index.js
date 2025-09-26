@@ -104,7 +104,7 @@ app.post('/transcode', async (req,res) =>{
     const command = new S3.GetObjectCommand({
         Bucket: bucketName,
         Key: transcodedkey,
-        ResponseContentDisposition: 'attachment; filename=transcodedkey',
+        ResponseContentDisposition: 'attachment; filename="${transcodedkey}"',
     });  
 
     const downloadpresignedURL = await S3Presigner.getSignedUrl(s3Client, command, {expiresIn: 3600});
