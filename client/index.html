@@ -11,6 +11,7 @@
     <input type="file" id="video" accept="video/*"><br><br>
     <button onclick="uploadvideo()">Upload</button>
     <h2 id="status"></h2>
+    <a id="downloadlink" href=""  style="display: none;"> Download Link</a>
     
 
     <script>
@@ -43,6 +44,12 @@
                     body:JSON.stringify({filename: video.name, contentType: video.type})
                 })
             }
+
+            const {url: downloadpresignedURL} = await transcode.json()
+            document.getElementById("downloadlink").href = downloadpresignedURL
+            document.getElementById("downloadlink").textContent = "Download Link"
+
+
         }
     </script>
     <!-- <script src="script.js" defer></script> -->

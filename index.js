@@ -1,8 +1,9 @@
 const express = require('express')
-//const ffmpeg = require('fluent-ffmpeg')
+const ffmpeg = require('fluent-ffmpeg')
 const S3 = require("@aws-sdk/client-s3");
 const S3Presigner = require("@aws-sdk/s3-request-presigner");
-//const { Upload } = require("@aws-sdk/lib-storage")
+const { Upload } = require("@aws-sdk/lib-storage")
+const { PassThrough } = require('stream');
 //const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 //Default
@@ -37,6 +38,8 @@ app.post('/upload', async (req,res)=>{
 // Transcode the video from S3
 app.post('/transcode', async (req,res) =>{
     const {filename} = req.body
+    let transcodedkey = `transcoded${filename}`
+
     let response
     // Create and send a command to read an object
     try {
@@ -46,13 +49,54 @@ app.post('/transcode', async (req,res) =>{
                 Key: filename,
             })
         );
-    } catch (err) {
-        console.log(err);
-    }
+     
+    const video = response.body
+    const videostream = new PassThrough()
     
+    ffmpeg(video)
+    .videoCodec('libx264')
+    .format('mp4')
+    .on('error', (err) => {
+    console.error('Error:', err.message);
+    res.status(500).send("Transcoding Failed :(")
+    return;
+    })
+    .pipe(videostream)
+
+    const uploads3 = new Upload({
+        client: s3Client,
+        params: {
+            Bucket: bucketName,
+            Key:transcodedkey,
+            Body: videostream,
+            ContentType: 'video/mp4'
+        }
+    })
+
+    const result = await uploads3.done()
+    console.log(result);
 
 
+    const command = new S3.GetObjectCommand({
+        Bucket: bucketName,
+        Key: transcodedkey,
+    });  
+
+    const downloadpresignedURL = await S3Presigner.getSignedUrl(s3Client, command, {expiresIn: 3600});
+    res.json({url: downloadpresignedURL})
+        
+    // Delete Original Video    
+    const data = await s3Client.send(new DeleteObjectCommand({
+        Bucket: bucketName,
+        Key: filename
+    }));
+    console.log("Success. Object deleted.", data);
+    // Delete Original Video 
+    }catch (err) {
+        console.log(err);
+    }  
 })
+    
 
 const PORT = 3000
 app.listen(PORT, ()=>{
