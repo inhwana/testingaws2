@@ -44,13 +44,15 @@
                     body:JSON.stringify({filename: video.name, contentType: video.type})
                 })
                 if(!transcode.ok) throw new Error("Transcoding Failed")
-                const {url: downloadpresignedURL} = await transcode.json()
+                // Same as the code below
+                //const {url: downloadpresignedURL} = await transcode.json()
 const data = await transcode.json();
 console.log('Presigned URL:', data.url);
 
             const link = document.getElementById("downloadlink");
             link.href = downloadpresignedURL;
             link.textContent = "Download Transcoded Video";
+            link.style.display = "inline";
 
                 // document.getElementById("downloadlink").href = downloadpresignedURL
                 // document.getElementById("downloadlink").textContent = "Download Link"

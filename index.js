@@ -59,7 +59,8 @@ app.post('/transcode', async (req,res) =>{
             Bucket: bucketName,
             Key:transcodedkey,
             Body: videostream,
-            ContentType: 'video/mp4'
+            //ContentType: 'video/mp4'
+            ContentType: 'video/webm'
         }
     })
     
