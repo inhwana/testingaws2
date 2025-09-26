@@ -43,14 +43,16 @@
                     headers: {'Content-Type': 'application/json'},
                     //body:JSON.stringify({filename: video.name})
                     body:JSON.stringify({filename: video.name, contentType: video.type})
-                })               
+                })
+                const {url: downloadpresignedURL} = await transcode.json()    
+                document.getElementById(downloadlink).href = downloadpresignedURL
+                document.getElementById(downloadlink).textContent = "Download Transcoded Video"
+                docuemnt.getElementById(downloadlink).style.display = "inline"           
             }
 
-            const {url: downloadpresignedURL} = await transcode.json()
+            
 
-            document.getElementById(downloadlink).href = downloadpresignedURL
-            document.getElementById(downloadlink).textContent = "Download Transcoded Video"
-            docuemnt.getElementById(downloadlink).style.display = "inline"
+            
 
 
 
