@@ -45,9 +45,15 @@
                     body:JSON.stringify({filename: video.name, contentType: video.type})
                 })
                 const {url: downloadpresignedURL} = await transcode.json()    
-                document.getElementById(downloadlink).href = downloadpresignedURL
-                document.getElementById(downloadlink).textContent = "Download Transcoded Video"
-                docuemnt.getElementById(downloadlink).style.display = "inline"           
+                // document.getElementById(downloadlink).href = downloadpresignedURL
+                // document.getElementById(downloadlink).textContent = "Download Transcoded Video"
+                // docuemnt.getElementById(downloadlink).style.display = "inline"   
+                
+                const link = document.getElementById("downloadlink");
+                link.href = downloadpresignedURL
+                link.textContent = "Download Transcoded Video"
+                link.style.display = "inline"
+
             }
 
             
