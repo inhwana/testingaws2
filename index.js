@@ -62,7 +62,7 @@ app.post('/transcode', async (req,res) =>{
     res.status(500).send("Transcoding Failed :(")
     return;
     })
-    .pipe(videostream)
+    .pipe(videostream, {end:true})
 
     const uploads3 = new Upload({
         client: s3Client,
