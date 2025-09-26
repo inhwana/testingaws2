@@ -55,9 +55,13 @@ app.post('/transcode', async (req,res) =>{
     
     ffmpeg(video)
     .outputOptions('-movflags frag_keyframe+empty_moov')
-    .videoCodec('libx264')
+    //.videoCodec('libx264')
+    //.format('mp4')
+    // Testing with WebM
+    .videocodec('libvpx') // libvpx-vpy For higher CPU Usage
+    .audiocodec('libvorbis') // libopus  
     .output('pipe:1')
-    .format('mp4')
+    
     .on('error', (err) => {
     console.error('Error:', err.message);
     res.status(500).send("Transcoding Failed :(")
