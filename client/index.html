@@ -45,8 +45,15 @@
                 })
                 if(!transcode.ok) throw new Error("Transcoding Failed")
                 const {url: downloadpresignedURL} = await transcode.json()
-                document.getElementById("downloadlink").href = downloadpresignedURL
-                document.getElementById("downloadlink").textContent = "Download Link"
+const data = await transcode.json();
+console.log('Presigned URL:', data.url);
+
+            const link = document.getElementById("downloadlink");
+            link.href = downloadpresignedURL;
+            link.textContent = "Download Transcoded Video";
+
+                // document.getElementById("downloadlink").href = downloadpresignedURL
+                // document.getElementById("downloadlink").textContent = "Download Link"
             }
         }
     </script>
